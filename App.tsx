@@ -10,6 +10,7 @@ import {PersistQueryClientProvider} from '@tanstack/react-query-persist-client';
 import {clientPersister} from './src/clientStorage/clientStorageConfig';
 import {queryClient} from './src/tanstack/tanstackConfig';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {AddQuote} from './src/quotes/addQuote/AddQuote';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,7 +22,7 @@ function App(): React.JSX.Element {
   };
 
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
+    <GestureHandlerRootView>
       <PersistQueryClientProvider
         persistOptions={{persister: clientPersister}}
         client={queryClient}>
@@ -37,6 +38,15 @@ function App(): React.JSX.Element {
                   name={screens.QUOTES_LIST}
                   component={QuotesList}
                   options={{headerShown: false}}
+                />
+                <Stack.Screen
+                  name={screens.ADD_QUOTE}
+                  component={AddQuote}
+                  options={{
+                    headerShown: true,
+                    headerTransparent: true,
+                    headerTitleAlign: 'left',
+                  }}
                 />
               </Stack.Navigator>
             </View>

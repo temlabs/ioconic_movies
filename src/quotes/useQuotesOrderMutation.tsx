@@ -9,7 +9,9 @@ const updateQuotes: MutationFunction<Quote[], Quote[]> = async (
   return quotes;
 };
 
-export function useQuotesMutation() {
+export const ADD_QUOTE = 'addQuote' as const;
+
+export function useQuotesOrderMutation() {
   const mutation = useMutation({
     mutationFn: updateQuotes,
     onMutate: async (quotes: Quote[]) => {
@@ -18,7 +20,7 @@ export function useQuotesMutation() {
       queryClient.setQueryData([QUOTES], quotes);
       return {previousQuotes, quotes};
     },
-    mutationKey: [QUOTES],
+    mutationKey: [ADD_QUOTE],
   });
 
   return mutation;

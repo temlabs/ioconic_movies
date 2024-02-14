@@ -20,12 +20,20 @@ import DraggableFlatList, {
 } from 'react-native-draggable-flatlist';
 import {QuoteListItem} from '../quoteTypes';
 import {useQuotesQuery} from '../useQuotesQuery';
-import {useQuotesMutation} from '../useQuotesMutation';
+import {useQuotesOrderMutation} from '../useQuotesOrderMutation';
+import {AddQuoteButton} from './components/AddQuoteButton';
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
+import screens from '../../config/screens';
 
-export function QuotesList(): ReactElement {
+export function QuotesList({
+  navigation,
+}: NativeStackScreenProps<any, typeof screens.QUOTES_LIST>): ReactElement {
   // const [data, setData] = useState(demoQuotes);
   const {data: quotes} = useQuotesQuery();
-  const {mutate: updateQuotes} = useQuotesMutation();
+  const {mutate: updateQuotesOrder} = useQuotesOrderMutation();
 
   const keyExtractor = (item: QuoteListItem) => item.id;
   const renderItem: RenderItem<QuoteListItem> = info => {
@@ -60,9 +68,14 @@ export function QuotesList(): ReactElement {
           <View style={{height: 5, width: '100%'}} />
         )}
         onDragEnd={({data}) => {
-          updateQuotes(data);
+          updateQuotesOrder(data);
         }}
       />
+      <View style={buttonContainer}>
+        <AddQuoteButton
+          onPress={() => navigation.navigate(screens.ADD_QUOTE)}
+        />
+      </View>
     </View>
   ) : (
     <></>
@@ -74,4 +87,15 @@ const listContainer: ViewStyle = {
   maxWidth: 400,
   alignSelf: 'center',
   overflow: 'visible',
+};
+
+const buttonContainer: ViewStyle = {
+  // width: '100%',
+  // maxWidth: 400,
+  alignItems: 'flex-end',
+  justifyContent: 'flex-end',
+  position: 'absolute',
+  alignSelf: 'flex-end',
+  bottom: 20,
+  right: 20,
 };
