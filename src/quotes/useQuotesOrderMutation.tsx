@@ -20,6 +20,10 @@ export function useQuotesOrderMutation() {
       queryClient.setQueryData([QUOTES], quotes);
       return {previousQuotes, quotes};
     },
+    onError: (error, variables, context) =>
+      context?.previousQuotes &&
+      queryClient.setQueryData([QUOTES], context?.previousQuotes),
+
     mutationKey: [ADD_QUOTE],
   });
 

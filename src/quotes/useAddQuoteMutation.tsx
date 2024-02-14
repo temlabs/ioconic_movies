@@ -16,6 +16,9 @@ export function useAddQuoteMutation() {
       queryClient.setQueryData([QUOTES], [...previousQuotes, quote]);
       return {previousQuotes, quote};
     },
+    onError: (error, variables, context) =>
+      context?.previousQuotes &&
+      queryClient.setQueryData([QUOTES], context?.previousQuotes),
     mutationKey: [QUOTES],
   });
 

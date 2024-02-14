@@ -13,14 +13,15 @@ export interface AddQuoteStore extends Partial<Quote> {
 }
 
 const initial: Partial<AddQuoteStore> = {
-  movie: demoMovies[0],
   character: demoCharacters[0],
+  movie: demoMovies[0],
+  text: '',
 };
 
 export const useAddQuoteStore = create<AddQuoteStore>(set => ({
   setCharacter: (character: Character) => set({character}),
   setMovie: (movie: Movie) => set({movie}),
   setText: (text: string) => set({text}),
-  reset: () => set(initial, true),
+  reset: () => set(initial),
   ...initial,
 }));

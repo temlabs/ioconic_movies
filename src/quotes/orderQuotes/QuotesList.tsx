@@ -1,39 +1,33 @@
-import React, {
-  ReactElement,
-  ReactNode,
-  useDeferredValue,
-  useState,
-} from 'react';
-import {
-  View,
-  Text,
-  ListRenderItem,
-  ViewStyle,
-  TouchableOpacity,
-} from 'react-native';
+import React, {ReactElement, useEffect, useState} from 'react';
+import {View, ViewStyle, TouchableOpacity} from 'react-native';
 import {baseScreenView} from '../../common/styles/screenStyles';
-import demoQuotes from '../../demo/quotes';
 import {QuotesListItem} from './components/QuotesListItem';
 import DraggableFlatList, {
   RenderItem,
   ScaleDecorator,
 } from 'react-native-draggable-flatlist';
-import {QuoteListItem} from '../quoteTypes';
+import {Quote, QuoteListItem} from '../quoteTypes';
 import {useQuotesQuery} from '../useQuotesQuery';
 import {useQuotesOrderMutation} from '../useQuotesOrderMutation';
 import {AddQuoteButton} from './components/AddQuoteButton';
-import {
-  NativeStackNavigationProp,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import screens from '../../config/screens';
+import {useHeaderHeight} from '@react-navigation/elements';
 
 export function QuotesList({
   navigation,
 }: NativeStackScreenProps<any, typeof screens.QUOTES_LIST>): ReactElement {
-  // const [data, setData] = useState(demoQuotes);
+  const headerHeight = useHeaderHeight();
+
+  const [localQuotes, setLocalQuotes] = useState<Quote[]>();
   const {data: quotes} = useQuotesQuery();
   const {mutate: updateQuotesOrder} = useQuotesOrderMutation();
+
+  useEffect(() => {
+    if (quotes) {
+      setLocalQuotes(quotes);
+    }
+  }, [quotes]);
 
   const keyExtractor = (item: QuoteListItem) => item.id;
   const renderItem: RenderItem<QuoteListItem> = info => {
@@ -45,33 +39,31 @@ export function QuotesList({
         <TouchableOpacity
           onLongPress={info.drag}
           disabled={info.isActive}
-          style={{
-            opacity: info.isActive ? 0.7 : 1,
-            width: '92%',
-            alignSelf: 'center',
-          }}>
+          style={listButton(info.isActive)}>
           <QuotesListItem {...props} position={position} />
         </TouchableOpacity>
       </ScaleDecorator>
     );
   };
 
-  return quotes ? (
-    <View style={baseScreenView}>
+  return localQuotes ? (
+    <View style={{...baseScreenView, paddingTop: headerHeight}}>
       <DraggableFlatList<QuoteListItem>
         showsVerticalScrollIndicator={false}
         containerStyle={listContainer}
-        data={quotes}
+        data={localQuotes}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
         ItemSeparatorComponent={() => (
           <View style={{height: 5, width: '100%'}} />
         )}
+        ListFooterComponent={() => <View style={{height: 84, width: '100%'}} />}
         onDragEnd={({data}) => {
+          setLocalQuotes(data);
           updateQuotesOrder(data);
         }}
       />
-      <View style={buttonContainer}>
+      <View style={addQuoteButtonContainer}>
         <AddQuoteButton
           onPress={() => navigation.navigate(screens.ADD_QUOTE)}
         />
@@ -86,12 +78,16 @@ const listContainer: ViewStyle = {
   width: '100%',
   maxWidth: 400,
   alignSelf: 'center',
-  overflow: 'visible',
+  overflow: 'hidden',
 };
 
-const buttonContainer: ViewStyle = {
-  // width: '100%',
-  // maxWidth: 400,
+const listButton: (isActive: boolean) => ViewStyle = isActive => ({
+  opacity: isActive ? 0.7 : 1,
+  width: '92%',
+  alignSelf: 'center',
+});
+
+const addQuoteButtonContainer: ViewStyle = {
   alignItems: 'flex-end',
   justifyContent: 'flex-end',
   position: 'absolute',

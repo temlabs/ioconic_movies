@@ -1,6 +1,6 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useHeaderHeight} from '@react-navigation/elements';
-import React, {ReactElement} from 'react';
+import React, {ReactElement, useState} from 'react';
 import {
   InteractionManager,
   Text,
@@ -18,18 +18,23 @@ import {useAddQuoteMutation} from '../useAddQuoteMutation';
 export function AddQuote({
   navigation,
 }: NativeStackScreenProps<any, typeof screens.QUOTES_LIST>): ReactElement {
+  const storeText = useAddQuoteStore(state => state.text);
+  const [text, setText] = useState(storeText ?? '');
   const headerHeight = useHeaderHeight();
 
   const {mutate: addQuote} = useAddQuoteMutation();
 
-  const text = useAddQuoteStore(state => state.text);
   const movie = useAddQuoteStore(state => state.movie);
   const character = useAddQuoteStore(state => state.character);
-  const setText = useAddQuoteStore(state => state.setText);
+  const setStoreText = useAddQuoteStore(state => state.setText);
   const reset = useAddQuoteStore(state => state.reset);
 
-  const goToSelectMovie = () => {};
-  const goToSelectCharacter = () => {};
+  const goToSelectMovie = () => {
+    setStoreText(text);
+  };
+  const goToSelectCharacter = () => {
+    setStoreText(text);
+  };
 
   const submitQuote = () => {
     if (!character || !movie || !text) {
@@ -51,9 +56,9 @@ export function AddQuote({
         textAlignVertical={'top'}
         textAlign={'left'}
         multiline={true}
-        onBlur={e => setText(e.nativeEvent.text)}
         blurOnSubmit={true}
         defaultValue={text}
+        onChangeText={setText}
       />
       <View>
         <NavigationButton

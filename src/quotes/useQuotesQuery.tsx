@@ -11,7 +11,6 @@ const fetchQuotes: QueryFunction<
   never
 > = async () => {
   const quotes = (queryClient.getQueryData([QUOTES]) ?? demoQuotes) as Quote[];
-  console.debug({quotes});
   return quotes;
 };
 

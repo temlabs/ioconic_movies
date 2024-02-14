@@ -37,7 +37,12 @@ function App(): React.JSX.Element {
                 <Stack.Screen
                   name={screens.QUOTES_LIST}
                   component={QuotesList}
-                  options={{headerShown: false}}
+                  options={{
+                    headerShown: true,
+                    headerTransparent: true,
+                    headerTitleAlign: 'left',
+                    headerTitle: 'Your movie list',
+                  }}
                 />
                 <Stack.Screen
                   name={screens.ADD_QUOTE}
@@ -46,6 +51,7 @@ function App(): React.JSX.Element {
                     headerShown: true,
                     headerTransparent: true,
                     headerTitleAlign: 'left',
+                    headerTitle: 'Add a new quote',
                   }}
                 />
               </Stack.Navigator>
