@@ -10,7 +10,7 @@ const fetchQuotes: QueryFunction<
   [typeof QUOTES],
   never
 > = async () => {
-  const quotes = (queryClient.getQueryData([QUOTES]) ?? []) as Quote[];
+  const quotes = (queryClient.getQueryData([QUOTES]) ?? demoQuotes) as Quote[];
   console.debug({quotes});
   return quotes;
 };
@@ -19,8 +19,8 @@ export function useQuotesQuery() {
   const query = useQuery({
     queryKey: [QUOTES],
     queryFn: fetchQuotes,
-    initialData: demoQuotes,
     staleTime: Infinity,
+    refetchOnMount: true,
   });
 
   return query;
