@@ -22,8 +22,12 @@ export function QuotesListItem(props: Required<QuoteListItem>) {
 const containerStyle: ViewStyle = {
   width: '100%',
   flexDirection: 'row',
-  gap: 5,
+  gap: 20,
   justifyContent: 'space-between',
+  backgroundColor: '#ADD8E6',
+  borderRadius: 8,
+  paddingHorizontal: 5,
+  paddingVertical: 10,
 };
 
 const positionStyle: TextStyle = {

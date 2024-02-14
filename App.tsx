@@ -9,6 +9,7 @@ import {baseScreenView} from './src/common/styles/screenStyles';
 import {PersistQueryClientProvider} from '@tanstack/react-query-persist-client';
 import {clientPersister} from './src/clientStorage/clientStorageConfig';
 import {queryClient} from './src/tanstack/tanstackConfig';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,23 +21,28 @@ function App(): React.JSX.Element {
   };
 
   return (
-    <PersistQueryClientProvider
-      persistOptions={{persister: clientPersister}}
-      client={queryClient}>
-      <NavigationContainer>
-        <SafeAreaView style={backgroundStyle}>
-          <StatusBar
-            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            // backgroundColor={backgroundStyle.backgroundColor}
-          />
-          <View style={baseScreenView}>
-            <Stack.Navigator>
-              <Stack.Screen name={screens.QUOTES_LIST} component={QuotesList} />
-            </Stack.Navigator>
-          </View>
-        </SafeAreaView>
-      </NavigationContainer>
-    </PersistQueryClientProvider>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <PersistQueryClientProvider
+        persistOptions={{persister: clientPersister}}
+        client={queryClient}>
+        <NavigationContainer>
+          <SafeAreaView style={backgroundStyle}>
+            <StatusBar
+              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+              // backgroundColor={backgroundStyle.backgroundColor}
+            />
+            <View style={baseScreenView}>
+              <Stack.Navigator>
+                <Stack.Screen
+                  name={screens.QUOTES_LIST}
+                  component={QuotesList}
+                />
+              </Stack.Navigator>
+            </View>
+          </SafeAreaView>
+        </NavigationContainer>
+      </PersistQueryClientProvider>
+    </GestureHandlerRootView>
   );
 }
 
