@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, ViewStyle, TextStyle} from 'react-native';
-import {QuoteListItem} from '../../quotes/quoteTypes';
+import {QuoteListItem} from '../../quoteTypes';
 
 export function QuotesListItem(props: Required<QuoteListItem>) {
   return (

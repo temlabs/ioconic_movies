@@ -5,5 +5,8 @@ export const queryClient = new QueryClient({
     queries: {
       staleTime: Infinity,
     },
+    mutations: {
+      gcTime: Infinity,
+    },
   },
 });

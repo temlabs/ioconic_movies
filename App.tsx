@@ -3,7 +3,7 @@ import {SafeAreaView, StatusBar, useColorScheme, View} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {QuotesList} from './src/orderQuotes/QuotesList';
+import {QuotesList} from './src/quotes/orderQuotes/QuotesList';
 import screens from './src/config/screens';
 import {baseScreenView} from './src/common/styles/screenStyles';
 import {PersistQueryClientProvider} from '@tanstack/react-query-persist-client';
