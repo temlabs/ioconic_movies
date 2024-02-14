@@ -8,6 +8,6 @@ export interface Quote {
   character: Character;
 }
 
-export interface ListedQuote extends Quote {
+export interface QuoteListItem extends Quote {
   position?: number;
 }
