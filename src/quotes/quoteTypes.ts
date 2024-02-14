@@ -9,5 +9,5 @@ export interface Quote {
 }
 
 export interface QuoteListItem extends Quote {
-  position?: number;
+  position?: string;
 }

@@ -27,12 +27,12 @@ const containerStyle: ViewStyle = {
   backgroundColor: '#ADD8E6',
   borderRadius: 8,
   paddingHorizontal: 5,
-  paddingVertical: 10,
+  paddingVertical: 20,
 };
 
 const positionStyle: TextStyle = {
   minWidth: '10%',
-  flexGrow: 1,
+  // flexGrow: 1,
   fontSize: 24,
   fontWeight: '600',
   textAlign: 'center',

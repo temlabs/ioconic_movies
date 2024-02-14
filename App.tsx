@@ -36,6 +36,7 @@ function App(): React.JSX.Element {
                 <Stack.Screen
                   name={screens.QUOTES_LIST}
                   component={QuotesList}
+                  options={{headerShown: false}}
                 />
               </Stack.Navigator>
             </View>
