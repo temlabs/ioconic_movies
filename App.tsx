@@ -6,6 +6,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {QuotesList} from './src/orderQuotes/QuotesList';
 import screens from './src/config/screens';
 import {baseScreenView} from './src/common/styles/screenStyles';
+import {PersistQueryClientProvider} from '@tanstack/react-query-persist-client';
+import {clientPersister} from './src/clientStorage/clientStorageConfig';
+import {queryClient} from './src/tanstack/tanstackConfig';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,19 +20,23 @@ function App(): React.JSX.Element {
   };
 
   return (
-    <NavigationContainer>
-      <SafeAreaView style={backgroundStyle}>
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          // backgroundColor={backgroundStyle.backgroundColor}
-        />
-        <View style={baseScreenView}>
-          <Stack.Navigator>
-            <Stack.Screen name={screens.QUOTES_LIST} component={QuotesList} />
-          </Stack.Navigator>
-        </View>
-      </SafeAreaView>
-    </NavigationContainer>
+    <PersistQueryClientProvider
+      persistOptions={{persister: clientPersister}}
+      client={queryClient}>
+      <NavigationContainer>
+        <SafeAreaView style={backgroundStyle}>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            // backgroundColor={backgroundStyle.backgroundColor}
+          />
+          <View style={baseScreenView}>
+            <Stack.Navigator>
+              <Stack.Screen name={screens.QUOTES_LIST} component={QuotesList} />
+            </Stack.Navigator>
+          </View>
+        </SafeAreaView>
+      </NavigationContainer>
+    </PersistQueryClientProvider>
   );
 }
 
